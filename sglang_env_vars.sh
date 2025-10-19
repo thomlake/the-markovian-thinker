@@ -12,10 +12,10 @@ export CPLUS_INCLUDE_PATH="$CUDA_HOME/include:${CPLUS_INCLUDE_PATH}"  # used by 
 
 # 4) Link-time search paths (so -lcudart / -lcuda resolve during FlashInfer’s link)
 #    Note: cudart is typically under .../lib (not lib64) in this layout; libcuda.so stub is in .../lib[/lib64]/stubs.
-export LIBRARY_PATH="$CUDA_HOME/lib:$CUDA_HOME/lib64:$CUDA_HOME/lib/stubs:$CUDA_HOME/lib64/stubs:${LIBRARY_PATH}"  :contentReference[oaicite:3]{index=3}
+export LIBRARY_PATH="$CUDA_HOME/lib:$CUDA_HOME/lib64:$CUDA_HOME/lib/stubs:$CUDA_HOME/lib64/stubs:${LIBRARY_PATH}"  # :contentReference[oaicite:3]{index=3}
 
 # 5) Run-time search paths (loader finds cudart/nvvm)
-export LD_LIBRARY_PATH="$CUDA_HOME/lib:$CUDA_HOME/lib64:$CUDA_HOME/lib/stubs:$CUDA_HOME/lib64/stubs:$CUDA_HOME/nvvm/lib64:${LD_LIBRARY_PATH}"  :contentReference[oaicite:4]{index=4}
+export LD_LIBRARY_PATH="$CUDA_HOME/lib:$CUDA_HOME/lib64:$CUDA_HOME/lib/stubs:$CUDA_HOME/lib64/stubs:$CUDA_HOME/nvvm/lib64:${LD_LIBRARY_PATH}"  # :contentReference[oaicite:4]{index=4}
 
 # 6) Embed rpaths into built .so files (so they load without env vars at runtime)
 export LDFLAGS="-Wl,-rpath,$CUDA_HOME/lib:-rpath,$CUDA_HOME/lib64:-rpath,$CUDA_HOME/nvvm/lib64 ${LDFLAGS}"
