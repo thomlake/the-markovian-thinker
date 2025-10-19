@@ -10,6 +10,8 @@ NOTE: Logic is intentionally unchanged from the original—only comments/docstri
 import argparse
 import asyncio
 import functools
+import json
+from pathlib import Path
 from pprint import pprint
 from typing import Any
 
@@ -278,7 +280,23 @@ def main():
         default=False,
         help="Debug mode",
     )
+    parser.add_argument(
+        "--output_file",
+        default=None,
+    )
     args = parser.parse_args()
+    if not args.output_file:
+        data_handle = 'aime_2024'
+        if args.sample > 0:
+            data_handle = f'{data_handle}_{args.sample}'
+
+        output_dir = Path('traces') / data_handle
+        output_dir.mkdir(parents=True, exist_ok=True)
+        model_handle = args.model.replace('/', '--')
+        args.output_file = output_dir / f'{model_handle}.jsonl'
+
+    if Path(args.output_file).exists():
+        raise ValueError(f'output_file exists: {args.output_file}')
 
     print("Arguments:")
     pprint(args.__dict__)
@@ -324,6 +342,10 @@ def main():
     scores, traces, trace_lengths = asyncio.run(run_inference(llm, ds, args))
     print(f"Average score: {np.mean(scores):.4f}")
     print(f"Average trace length: {np.mean(trace_lengths):.4f}")
+
+    with open(args.output_file, 'w') as fp:
+        for pair in traces:
+            print(json.dumps(pair), file=fp)
 
 
 if __name__ == "__main__":
