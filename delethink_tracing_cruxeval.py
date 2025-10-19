@@ -232,12 +232,12 @@ async def run_inference(llm, ds, args):
         *_, pair = trace_pair_ids
         response_ids = pair['prompt'] + pair['response']
         # Decode entire concatenated trace. Keep special tokens as in original.
-        response = llm.tokenizer_manager.tokenizer.decode(response_ids, skip_special_tokens=False)
-        score = compute_score(
-            solution_str=response,
-            ground_truth=sample["answer"],
-        )
-        scores.append(score)
+        # response = llm.tokenizer_manager.tokenizer.decode(response_ids, skip_special_tokens=False)
+        # score = compute_score(
+        #     solution_str=response,
+        #     ground_truth=sample["answer"],
+        # )
+        scores.append(0)
         traces.append(trace_pair_ids)
         trace_lengths.append(len(response_ids))
 
