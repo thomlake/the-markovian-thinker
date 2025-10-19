@@ -287,8 +287,8 @@ def main():
     args = parser.parse_args()
     if not args.output_file:
         data_handle = 'aime_2024'
-        if args.sample > 0:
-            data_handle = f'{data_handle}_{args.sample}'
+        if args.samples > 0:
+            data_handle = f'{data_handle}_{args.samples}'
 
         output_dir = Path('traces') / data_handle
         output_dir.mkdir(parents=True, exist_ok=True)
