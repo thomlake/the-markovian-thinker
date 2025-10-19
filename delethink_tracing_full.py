@@ -223,8 +223,8 @@ async def run_inference(llm, ds, args):
     trace_lengths = []
     for task in tqdm_asyncio.as_completed(tasks, desc="Sampling Responses"):
         sample, trace_pair_ids = await task
-        *_, (input_ids, output_ids) = trace_pair_ids
-        response_ids = input_ids + output_ids
+        *_, pair = trace_pair_ids
+        response_ids = pair['prompt'] + pair['response']
         # Decode entire concatenated trace. Keep special tokens as in original.
         response = llm.tokenizer_manager.tokenizer.decode(response_ids, skip_special_tokens=False)
         score = compute_score(
