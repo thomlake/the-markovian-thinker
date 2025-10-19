@@ -176,7 +176,7 @@ async def delethink_tracing(
         # Generate next chunk
         response = await llm.async_generate(input_ids=prompt_ids, sampling_params=params, return_logprob=True)
         response_ids = _get_output_ids(response)
-        trace_pair_ids.append([prompt_ids, response_ids])
+        trace_pair_ids.append({'iteration': iterations, 'prompt': prompt_ids, 'response': response_ids})
 
         # Heuristic: after the first chunk, persist the first 100 generated tokens
         # into the running "query_ids" prefix (kept as-is; matches original logic).
