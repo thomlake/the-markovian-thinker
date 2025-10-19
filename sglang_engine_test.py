@@ -10,7 +10,7 @@ model = 'McGill-NLP/delethink-24k-1.5b'
 config = AutoConfig.from_pretrained(model)
 
 print('[DONE]')
-print('[DO] load engine')
+print('[DO] init engine')
 
 llm = sglang.Engine(
     model_path=model,
