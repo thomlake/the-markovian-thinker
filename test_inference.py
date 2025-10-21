@@ -4,7 +4,8 @@ import sglang as sgl
 import torch
 
 
-MODEL = 'McGill-NLP/delethink-24k-1.5b'
+# MODEL = 'McGill-NLP/delethink-24k-1.5b'
+MODEL = 'meta-llama/Llama-3.2-1B'
 CONTEXT_LENGTH = 2048 + 8192
 ATTENTION_BACKEND = 'flashinfer'
 SAMPLING_PARAMS = {
