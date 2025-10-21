@@ -1,3 +1,5 @@
+import asyncio
+
 import sglang as sgl
 import torch
 
@@ -14,7 +16,7 @@ PROMPT_INPUTS = {
 }
 
 
-def main():
+async def inference():
     print('loading model...')
     llm = sgl.Engine(
         model_path=MODEL,
@@ -43,10 +45,10 @@ def main():
     print(input_ids)
     print(input_text)
 
-    response = llm.generate(input_ids=input_ids, sampling_params=SAMPLING_PARAMS, return_logprob=True)
+    response = await llm.generate_async(input_ids=input_ids, sampling_params=SAMPLING_PARAMS, return_logprob=True)
     print('done')
     print(response)
 
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(inference())
