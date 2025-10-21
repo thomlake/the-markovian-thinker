@@ -39,13 +39,13 @@ async def inference():
         )
         return input_ids
 
-    print('running inference')
+    print('running inference...')
     input_ids = get_input_ids()
     input_text = llm.tokenizer_manager.tokenizer.decode(input_ids, skip_special_tokens=False)
     print(input_ids)
     print(input_text)
 
-    response = await llm.generate_async(input_ids=input_ids, sampling_params=SAMPLING_PARAMS, return_logprob=True)
+    response = await llm.async_generate(input_ids=input_ids, sampling_params=SAMPLING_PARAMS, return_logprob=True)
     print('done')
     print(response)
 
