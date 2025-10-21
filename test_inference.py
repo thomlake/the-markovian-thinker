@@ -5,7 +5,8 @@ import torch
 
 
 # MODEL = 'McGill-NLP/delethink-24k-1.5b'
-MODEL = 'meta-llama/Llama-3.2-1B'
+# MODEL = 'meta-llama/Llama-3.2-1B'
+MODEL = 'Qwen/Qwen2.5-1.5B-Instruct'
 CONTEXT_LENGTH = 2048 + 8192
 ATTENTION_BACKEND = 'flashinfer'
 SAMPLING_PARAMS = {
