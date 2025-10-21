@@ -39,7 +39,7 @@ async def inference():
         )
         return input_ids
 
-    def get_output_ids(response: dict[str, Any]) -> list[int]:
+    def get_output_ids(response: dict) -> list[int]:
         """Extract generated token IDs from an sglang response."""
         if "output_ids" in response:
             return response["output_ids"]
