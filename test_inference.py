@@ -7,7 +7,10 @@ import torch
 MODEL = 'McGill-NLP/delethink-24k-1.5b'
 CONTEXT_LENGTH = 2048 + 8192
 ATTENTION_BACKEND = 'flashinfer'
-SAMPLING_PARAMS = {'temperature': 0.6}
+SAMPLING_PARAMS = {
+    'temperature': 0.6,
+    'max_new_tokens': 8192,
+}
 
 PROMPT_TEMPLATE = "{problem}\n\nPlease reason step by step, and put your final answer within \\boxed{{}}."
 PROBLEM = """Every morning Aya goes for a $9$-kilometer-long walk and stops at a coffee shop afterwards. When she walks at a constant speed of $s$ kilometers per hour, the walk takes her 4 hours, including $t$ minutes spent in the coffee shop. When she walks $s+2$ kilometers per hour, the walk takes her 2 hours and 24 minutes, including $t$ minutes spent in the coffee shop. Suppose Aya walks at $s+\\frac{1}{2}$ kilometers per hour. Find the number of minutes the walk takes her, including the $t$ minutes spent in the coffee shop."""
@@ -30,9 +33,12 @@ async def inference():
         log_level='INFO',
     )
 
+    tokenizer = llm.tokenizer_manager.tokenizer
+    print(tokenizer)
+
     def get_input_ids():
         prompt = PROMPT_TEMPLATE.format(**PROMPT_INPUTS)
-        input_ids = llm.tokenizer_manager.tokenizer.apply_chat_template(
+        input_ids = tokenizer.apply_chat_template(
             [{'role': 'user', 'content': prompt}],
             tokenize=True,
             add_generation_prompt=True,
@@ -52,7 +58,7 @@ async def inference():
 
     print('running inference...')
     input_ids = get_input_ids()
-    input_text = llm.tokenizer_manager.tokenizer.decode(input_ids, skip_special_tokens=False)
+    input_text = tokenizer.decode(input_ids, skip_special_tokens=False)
     print(input_ids)
     print(input_text)
 
