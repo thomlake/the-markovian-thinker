@@ -39,6 +39,17 @@ async def inference():
         )
         return input_ids
 
+    def get_output_ids(response: dict[str, Any]) -> list[int]:
+        """Extract generated token IDs from an sglang response."""
+        if "output_ids" in response:
+            return response["output_ids"]
+        output_token_logprobs = response["meta_info"]["output_token_logprobs"]
+        _, output_token_ids = zip(
+            *[(log_prob, token_ids) for log_prob, token_ids, _ in output_token_logprobs],
+            strict=True,
+        )
+        return list(output_token_ids)
+
     print('running inference...')
     input_ids = get_input_ids()
     input_text = llm.tokenizer_manager.tokenizer.decode(input_ids, skip_special_tokens=False)
@@ -48,6 +59,11 @@ async def inference():
     response = await llm.async_generate(input_ids=input_ids, sampling_params=SAMPLING_PARAMS, return_logprob=True)
     print('done')
     print(response)
+
+    output_ids = get_output_ids(response)
+    output_text = llm.tokenizer_manager.tokenizer.decode(output_ids, skip_special_tokens=False)
+    print(output_ids)
+    print(output_text)
 
 
 if __name__ == '__main__':
